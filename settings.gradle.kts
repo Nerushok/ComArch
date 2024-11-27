@@ -22,4 +22,3 @@ dependencyResolutionManagement {
 rootProject.name = "Components"
 include(":app")
 include(":library")
-include(":sample")
