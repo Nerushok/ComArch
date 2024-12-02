@@ -13,25 +13,9 @@ abstract class BaseComponent<S>(
     override val componentStore: ComponentStore = ComponentStore(),
     override val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate),
-) : Component, StateDelegate<S> {
+) : Component {
 
     init {
         storeOwner.attachComponent(this)
-    }
-}
-
-abstract class StateComponent<S>(
-    storeOwner: ComponentStoreOwner,
-    initialState: S,
-) : BaseComponent<S>(storeOwner), StateDelegate<S> {
-
-    private val stateDelegate = StateDelegateImpl(initialState)
-    override val stateFlow: StateFlow<S>
-        get() = stateDelegate.stateFlow
-
-    override fun updateState(reducer: S.() -> S) = stateDelegate.updateState(reducer)
-
-    protected fun <T> Flow<T>.updateStateOnEach(reducer: S.(T) -> S) {
-        onEach { updateState { reducer(it) } }.launchIn(coroutineScope)
     }
 }

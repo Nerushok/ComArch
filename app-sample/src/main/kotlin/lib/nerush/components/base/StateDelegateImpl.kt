@@ -1,4 +1,4 @@
-package lib.nerush.components.library
+package lib.nerush.components.base
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
