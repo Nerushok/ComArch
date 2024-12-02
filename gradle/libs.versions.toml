@@ -17,6 +17,10 @@ ksp = "2.0.21-1.0.26"
 androidxActivity = "1.9.3"
 # https://developer.android.com/jetpack/androidx/releases/lifecycle
 androidxLifecycle = "2.8.7"
+# https://developer.android.com/jetpack/androidx/releases/navigation
+androidxNavigation = "2.8.3"
+# https://coil-kt.github.io/coil/#download
+coil = "3.0.0"
 
 # Hilt
 # https://developer.android.com/training/dependency-injection/hilt-android
@@ -53,6 +57,9 @@ androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

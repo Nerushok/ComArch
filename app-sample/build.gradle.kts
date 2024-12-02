@@ -42,6 +42,8 @@ dependencies {
     implementation(project(":library"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -52,6 +54,8 @@ dependencies {
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
