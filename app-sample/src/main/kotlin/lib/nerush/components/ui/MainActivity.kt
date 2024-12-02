@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import lib.nerush.components.ui.details.DetailsScreen
 import lib.nerush.components.ui.main.MainScreen
 import lib.nerush.components.ui.main.MainViewModel
 import javax.inject.Inject
@@ -35,7 +36,10 @@ private fun AppNavigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = ROUTE_MAIN) {
         composable(route = ROUTE_MAIN) {
-            MainScreen(openBook = { id -> })
+            MainScreen(openBook = { id -> navController.navigate("details/$id") })
+        }
+        composable(route = ROUTE_DETAILS) {
+            DetailsScreen()
         }
     }
 }

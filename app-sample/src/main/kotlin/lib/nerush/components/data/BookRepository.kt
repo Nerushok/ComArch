@@ -1,11 +1,18 @@
 package lib.nerush.components.data
 
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class BookRepository @Inject constructor() {
 
-    fun getBooks(): Result<List<Book>> {
+    suspend fun getBooks(): Result<List<Book>> {
+        delay(2000)
         return Result.success(books)
+    }
+
+    suspend fun getBook(id: String): Result<Book> {
+        delay(2000)
+        return Result.success(books.first { it.id == id })
     }
 
     private val books = listOf(

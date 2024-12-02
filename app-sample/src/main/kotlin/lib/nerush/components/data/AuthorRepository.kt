@@ -1,11 +1,13 @@
 package lib.nerush.components.data
 
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AuthorRepository @Inject constructor() {
 
-    fun getAuthor(id: String): Author? {
-        return authors.find { it.id == id }
+    suspend fun getAuthor(id: String): Result<Author?> {
+        delay(2000)
+        return Result.success(authors.find { it.id == id })
     }
 
     private val authors = listOf(
