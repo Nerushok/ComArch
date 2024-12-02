@@ -39,7 +39,7 @@ private fun AppNavigation() {
             MainScreen(openBook = { id -> navController.navigate("details/$id") })
         }
         composable(route = ROUTE_DETAILS) {
-            DetailsScreen()
+            DetailsScreen(navigateUp = navController::navigateUp)
         }
     }
 }

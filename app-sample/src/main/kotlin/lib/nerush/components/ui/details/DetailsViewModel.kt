@@ -12,6 +12,8 @@ import lib.nerush.components.data.Book
 import lib.nerush.components.data.BookRepository
 import lib.nerush.components.ui.details.author.AuthorComponent
 import lib.nerush.components.ui.details.author.AuthorComponentFactory
+import lib.nerush.components.ui.details.review.ReviewsComponent
+import lib.nerush.components.ui.details.review.ReviewsComponentFactory
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +21,7 @@ class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val bookRepository: BookRepository,
     private val authorComponentFactory: AuthorComponentFactory,
+    private val reviewsComponentFactory: ReviewsComponentFactory,
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(DetailsState(savedStateHandle["id"]!!))
@@ -34,11 +37,13 @@ class DetailsViewModel @Inject constructor(
             bookRepository.getBook(state.value.bookId).fold(
                 onSuccess = { book ->
                     val authorComponent = createAuthorComponent(book)
+                    val reviewsComponent = createReviewsComponent(book)
                     _state.update {
                         it.copy(
                             isLoading = false,
                             book = book,
-                            authorComponent = authorComponent
+                            authorComponent = authorComponent,
+                            reviewsComponent = reviewsComponent,
                         )
                     }
                 },
@@ -49,5 +54,9 @@ class DetailsViewModel @Inject constructor(
 
     private fun createAuthorComponent(book: Book): AuthorComponent {
         return authorComponentFactory.create(storeOwner = this, book = book)
+    }
+
+    private fun createReviewsComponent(book: Book): ReviewsComponent {
+        return reviewsComponentFactory.create(storeOwner = this, book = book)
     }
 }
