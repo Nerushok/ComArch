@@ -8,9 +8,10 @@ import lib.nerush.components.base.StateComponent
 import lib.nerush.components.base.StateDelegate
 import lib.nerush.components.data.AuthorRepository
 import lib.nerush.components.data.Book
+import lib.nerush.components.library.Component
 import lib.nerush.components.library.ComponentStoreOwner
 
-interface IAuthorComponent : StateDelegate<AuthorState>
+interface IAuthorComponent : Component, StateDelegate<AuthorState>
 
 @AssistedFactory
 interface AuthorComponentFactory {

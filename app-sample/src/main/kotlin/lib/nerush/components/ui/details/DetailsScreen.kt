@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,11 +35,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import lib.nerush.components.data.Author
 import lib.nerush.components.data.Book
 import lib.nerush.components.data.Review
+import lib.nerush.components.library.ComponentStore
 import lib.nerush.components.ui.details.author.AuthorState
 import lib.nerush.components.ui.details.author.AuthorUiComponent
 import lib.nerush.components.ui.details.author.IAuthorComponent
@@ -55,12 +58,20 @@ fun DetailsScreen(navigateUp: () -> Unit) {
 @Composable
 private fun DetailsScreen(viewModel: DetailsViewModel, navigateUp: () -> Unit) {
     val state = viewModel.state.collectAsState()
-    DetailsScreen(state = state.value, navigateUp)
+    DetailsScreen(
+        state = state.value,
+        navigateUp = navigateUp,
+        toggleReviewsVisibility = viewModel::toggleReviewsVisibility
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DetailsScreen(state: DetailsState, navigateUp: () -> Unit) {
+private fun DetailsScreen(
+    state: DetailsState,
+    navigateUp: () -> Unit,
+    toggleReviewsVisibility: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -90,14 +101,14 @@ private fun DetailsScreen(state: DetailsState, navigateUp: () -> Unit) {
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
 
-                else -> DetailsScreenContent(state)
+                else -> DetailsScreenContent(state, toggleReviewsVisibility)
             }
         }
     }
 }
 
 @Composable
-private fun DetailsScreenContent(state: DetailsState) {
+private fun DetailsScreenContent(state: DetailsState, toggleReviewsVisibility: () -> Unit) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -120,15 +131,26 @@ private fun DetailsScreenContent(state: DetailsState) {
             AuthorUiComponent(component = it)
         }
 
-        state.reviewsComponent?.let {
-            Spacer(modifier = Modifier.size(32.dp))
+        Spacer(modifier = Modifier.size(24.dp))
 
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Reviews", style = MaterialTheme.typography.titleLarge)
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            TextButton(onClick = toggleReviewsVisibility) {
+                Text(text = if (state.reviewsComponent == null) "Show reviews" else "Hide")
+            }
+        }
+
+        state.reviewsComponent?.let {
 
             Spacer(modifier = Modifier.size(16.dp))
 
             ReviewsUiComponent(component = it)
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -202,12 +224,16 @@ private fun PreviewDetailsScreen() {
         bookId = "1",
         book = book,
         authorComponent = object : IAuthorComponent {
+            override val componentStore = ComponentStore()
+            override val coroutineScope = GlobalScope
             override val stateFlow: StateFlow<AuthorState> =
                 MutableStateFlow(AuthorState(author = author))
 
             override fun updateState(reducer: AuthorState.() -> AuthorState) {}
         },
         reviewsComponent = object : IReviewsComponent {
+            override val componentStore = ComponentStore()
+            override val coroutineScope = GlobalScope
             override val stateFlow: StateFlow<ReviewsState> =
                 MutableStateFlow(ReviewsState(reviews = reviews))
 
@@ -215,6 +241,6 @@ private fun PreviewDetailsScreen() {
         },
     )
     MaterialTheme {
-        DetailsScreen(state = state, {})
+        DetailsScreen(state = state, {}, {})
     }
 }

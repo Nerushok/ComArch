@@ -31,19 +31,29 @@ class DetailsViewModel @Inject constructor(
         loadBook()
     }
 
+    fun toggleReviewsVisibility() {
+        val reviewsComponent = _state.value.reviewsComponent
+        if (reviewsComponent == null) {
+            val book = _state.value.book ?: return
+            val component = createReviewsComponent(book)
+            _state.update { it.copy(reviewsComponent = component) }
+        } else {
+            _state.value.reviewsComponent?.let(::detachComponent)
+            _state.update { it.copy(reviewsComponent = null) }
+        }
+    }
+
     private fun loadBook() {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             bookRepository.getBook(state.value.bookId).fold(
                 onSuccess = { book ->
                     val authorComponent = createAuthorComponent(book)
-                    val reviewsComponent = createReviewsComponent(book)
                     _state.update {
                         it.copy(
                             isLoading = false,
                             book = book,
                             authorComponent = authorComponent,
-                            reviewsComponent = reviewsComponent,
                         )
                     }
                 },
