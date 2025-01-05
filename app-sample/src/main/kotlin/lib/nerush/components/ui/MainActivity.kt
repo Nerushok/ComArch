@@ -3,7 +3,6 @@ package lib.nerush.components.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -12,8 +11,6 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import lib.nerush.components.ui.details.DetailsScreen
 import lib.nerush.components.ui.main.MainScreen
-import lib.nerush.components.ui.main.MainViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

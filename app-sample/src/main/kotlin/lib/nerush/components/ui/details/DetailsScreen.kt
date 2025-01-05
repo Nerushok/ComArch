@@ -101,7 +101,9 @@ private fun DetailsScreen(
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
 
-                else -> DetailsScreenContent(state, toggleReviewsVisibility)
+                else -> {
+                    DetailsScreenContent(state, toggleReviewsVisibility)
+                }
             }
         }
     }
@@ -144,7 +146,6 @@ private fun DetailsScreenContent(state: DetailsState, toggleReviewsVisibility: (
         }
 
         state.reviewsComponent?.let {
-
             Spacer(modifier = Modifier.size(16.dp))
 
             ReviewsUiComponent(component = it)

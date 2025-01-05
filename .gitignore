@@ -9,6 +9,7 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /.idea/inspectionProfiles/Project_Default.xml
+/.idea/runConfigurations.xml
 /build
 /captures
 .externalNativeBuild

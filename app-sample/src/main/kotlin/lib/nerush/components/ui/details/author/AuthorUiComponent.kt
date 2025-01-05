@@ -51,7 +51,9 @@ private fun AuthorUiComponent(state: AuthorState, modifier: Modifier = Modifier)
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
 
-                state.author != null -> AuthorContent(state.author)
+                state.author != null -> {
+                    AuthorContent(state.author)
+                }
             }
         }
     }

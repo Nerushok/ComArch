@@ -36,6 +36,7 @@ class DetailsViewModel @Inject constructor(
         if (reviewsComponent == null) {
             val book = _state.value.book ?: return
             val component = createReviewsComponent(book)
+            attachComponent(component)
             _state.update { it.copy(reviewsComponent = component) }
         } else {
             _state.value.reviewsComponent?.let(::detachComponent)
@@ -49,6 +50,7 @@ class DetailsViewModel @Inject constructor(
             bookRepository.getBook(state.value.bookId).fold(
                 onSuccess = { book ->
                     val authorComponent = createAuthorComponent(book)
+                    attachComponent(authorComponent)
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -63,10 +65,10 @@ class DetailsViewModel @Inject constructor(
     }
 
     private fun createAuthorComponent(book: Book): AuthorComponent {
-        return authorComponentFactory.create(storeOwner = this, book = book)
+        return authorComponentFactory.create(book = book)
     }
 
     private fun createReviewsComponent(book: Book): ReviewsComponent {
-        return reviewsComponentFactory.create(storeOwner = this, book = book)
+        return reviewsComponentFactory.create(book = book)
     }
 }
