@@ -9,20 +9,18 @@ import lib.nerush.components.base.StateDelegate
 import lib.nerush.components.data.AuthorRepository
 import lib.nerush.components.data.Book
 import lib.nerush.components.library.Component
-import lib.nerush.components.library.ComponentStoreOwner
 
 interface IAuthorComponent : Component, StateDelegate<AuthorState>
 
 @AssistedFactory
 interface AuthorComponentFactory {
-    fun create(storeOwner: ComponentStoreOwner, book: Book): AuthorComponent
+    fun create(book: Book): AuthorComponent
 }
 
 class AuthorComponent @AssistedInject constructor(
-    @Assisted storeOwner: ComponentStoreOwner,
     @Assisted private val book: Book,
     private val authorRepository: AuthorRepository,
-) : IAuthorComponent, StateComponent<AuthorState>(storeOwner, AuthorState()) {
+) : IAuthorComponent, StateComponent<AuthorState>(AuthorState()) {
 
     init {
         updateState { copy(isLoading = true) }

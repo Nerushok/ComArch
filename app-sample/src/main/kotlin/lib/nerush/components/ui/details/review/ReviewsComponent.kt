@@ -9,20 +9,18 @@ import lib.nerush.components.base.StateDelegate
 import lib.nerush.components.data.Book
 import lib.nerush.components.data.ReviewRepository
 import lib.nerush.components.library.Component
-import lib.nerush.components.library.ComponentStoreOwner
 
 interface IReviewsComponent : Component, StateDelegate<ReviewsState>
 
 @AssistedFactory
 interface ReviewsComponentFactory {
-    fun create(storeOwner: ComponentStoreOwner, book: Book): ReviewsComponent
+    fun create(book: Book): ReviewsComponent
 }
 
 class ReviewsComponent @AssistedInject constructor(
-    @Assisted storeOwner: ComponentStoreOwner,
     @Assisted book: Book,
     private val reviewRepository: ReviewRepository,
-) : IReviewsComponent, StateComponent<ReviewsState>(storeOwner, ReviewsState()) {
+) : IReviewsComponent, StateComponent<ReviewsState>(ReviewsState()) {
 
     init {
         updateState { copy(isLoading = true) }

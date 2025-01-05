@@ -5,12 +5,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import lib.nerush.components.library.BaseComponent
-import lib.nerush.components.library.ComponentStoreOwner
 
 abstract class StateComponent<S>(
-    storeOwner: ComponentStoreOwner,
     initialState: S,
-) : BaseComponent<S>(storeOwner), StateDelegate<S> {
+) : BaseComponent<S>(), StateDelegate<S> {
 
     private val stateDelegate = StateDelegateImpl(initialState)
     override val stateFlow: StateFlow<S>
